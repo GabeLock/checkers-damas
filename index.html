@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Damas</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="game">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow" data-i18n="eyebrow">Jogo de tabuleiro</p>
+            <h1 data-i18n="title">Damas</h1>
+          </div>
+          <div class="controls" aria-label="Game controls">
+            <select id="language" aria-label="Language">
+              <option value="pt-BR">Português</option>
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+            </select>
+            <button id="restart" type="button" data-i18n="restart">Reiniciar</button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="board-wrap">
+            <div id="board" class="board" aria-label="Checkers board"></div>
+          </div>
+
+          <aside class="panel">
+            <div class="scoreline">
+              <span data-i18n="turn">Turno</span>
+              <strong id="turn-label">Vermelhas</strong>
+            </div>
+            <div id="status" class="status" role="status" aria-live="polite"></div>
+
+            <div class="score-grid" aria-label="Score">
+              <div>
+                <span data-i18n="red">Vermelhas</span>
+                <strong id="red-count">12</strong>
+              </div>
+              <div>
+                <span data-i18n="black">Pretas</span>
+                <strong id="black-count">12</strong>
+              </div>
+            </div>
+
+            <div class="rules">
+              <h2 data-i18n="rulesTitle">Pontos base</h2>
+              <ul>
+                <li data-i18n="ruleMove">Peças comuns movem uma casa na diagonal.</li>
+                <li data-i18n="ruleCapture">Capturas são obrigatórias quando disponíveis.</li>
+                <li data-i18n="ruleKing">Ao chegar ao final, a peça vira dama.</li>
+                <li data-i18n="ruleWin">Vence quem capturar ou bloquear todas as peças rivais.</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
