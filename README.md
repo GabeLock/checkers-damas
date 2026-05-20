@@ -11,6 +11,8 @@ Jogo de dama em HTML, CSS e JavaScript puro, pronto para abrir no navegador sem 
 - Multicaptura com a mesma peca.
 - Promocao para dama ao chegar ao final do tabuleiro.
 - Contagem de pecas e deteccao de vitoria por captura ou bloqueio.
+- Modo contra bot com tres niveis: facil, medio e velho da praca.
+- Opcao online com login local e criacao de sala; multiplayer real ainda exige um servidor de sincronizacao antes da publicacao final dessa funcao.
 
 ## Como executar
 

@@ -31,6 +31,34 @@
           </div>
 
           <aside class="panel">
+            <div class="mode-panel">
+              <label for="game-mode" data-i18n="modeLabel">Modo de jogo</label>
+              <select id="game-mode">
+                <option value="local" data-i18n="modeLocal">Local</option>
+                <option value="bot" data-i18n="modeBot">Contra bot</option>
+                <option value="online" data-i18n="modeOnline">Online</option>
+              </select>
+
+              <div id="bot-options" class="stack hidden">
+                <label for="bot-level" data-i18n="botLevel">Nivel do bot</label>
+                <select id="bot-level">
+                  <option value="easy" data-i18n="botEasy">Facil</option>
+                  <option value="medium" data-i18n="botMedium">Medio</option>
+                  <option value="hard" data-i18n="botHard">Velho da praca</option>
+                </select>
+              </div>
+
+              <div id="online-options" class="stack hidden">
+                <label for="player-name" data-i18n="playerName">Seu nome</label>
+                <input id="player-name" type="text" maxlength="24" autocomplete="nickname" placeholder="GabeLock">
+                <div class="online-actions">
+                  <button id="login-online" type="button" data-i18n="loginOnline">Entrar</button>
+                  <button id="create-room" type="button" data-i18n="createRoom">Criar sala</button>
+                </div>
+                <div id="online-state" class="online-state"></div>
+              </div>
+            </div>
+
             <div class="scoreline">
               <span data-i18n="turn">Turno</span>
               <strong id="turn-label">Vermelhas</strong>

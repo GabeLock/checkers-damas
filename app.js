@@ -8,16 +8,33 @@ const translations = {
     black: "Pretas",
     redTurn: "Vermelhas",
     blackTurn: "Pretas",
-    selectPiece: "Selecione uma peça para ver os movimentos disponíveis.",
-    mustCapture: "Captura obrigatória disponível.",
-    keepCapturing: "Continue capturando com a mesma peça.",
+    selectPiece: "Selecione uma peca para ver os movimentos disponiveis.",
+    mustCapture: "Captura obrigatoria disponivel.",
+    keepCapturing: "Continue capturando com a mesma peca.",
     redWins: "Vermelhas venceram.",
     blackWins: "Pretas venceram.",
+    botThinking: "Bot pensando...",
+    botTurn: "Vez do bot.",
+    onlineOffline: "Entre e crie uma sala para convidar outro jogador.",
+    onlineLogged: "Logado como {name}. Crie uma sala para jogar online.",
+    onlineRoom: "Sala {room} criada. Multiplayer real exige servidor de sincronizacao antes de publicar.",
+    onlineWaiting: "Aguardando adversario logado entrar na sala.",
+    modeLabel: "Modo de jogo",
+    modeLocal: "Local",
+    modeBot: "Contra bot",
+    modeOnline: "Online",
+    botLevel: "Nivel do bot",
+    botEasy: "Facil",
+    botMedium: "Medio",
+    botHard: "Velho da praca",
+    playerName: "Seu nome",
+    loginOnline: "Entrar",
+    createRoom: "Criar sala",
     rulesTitle: "Pontos base",
-    ruleMove: "Peças comuns movem uma casa na diagonal.",
-    ruleCapture: "Capturas são obrigatórias quando disponíveis.",
-    ruleKing: "Ao chegar ao final, a peça vira dama.",
-    ruleWin: "Vence quem capturar ou bloquear todas as peças rivais."
+    ruleMove: "Pecas comuns movem uma casa na diagonal.",
+    ruleCapture: "Capturas sao obrigatorias quando disponiveis.",
+    ruleKing: "Ao chegar ao final, a peca vira dama.",
+    ruleWin: "Vence quem capturar ou bloquear todas as pecas rivais."
   },
   en: {
     eyebrow: "Board game",
@@ -33,6 +50,23 @@ const translations = {
     keepCapturing: "Keep capturing with the same piece.",
     redWins: "Red wins.",
     blackWins: "Black wins.",
+    botThinking: "Bot thinking...",
+    botTurn: "Bot turn.",
+    onlineOffline: "Sign in and create a room to invite another player.",
+    onlineLogged: "Signed in as {name}. Create a room to play online.",
+    onlineRoom: "Room {room} created. Real multiplayer needs a sync server before publishing.",
+    onlineWaiting: "Waiting for a signed-in opponent to join the room.",
+    modeLabel: "Game mode",
+    modeLocal: "Local",
+    modeBot: "Versus bot",
+    modeOnline: "Online",
+    botLevel: "Bot level",
+    botEasy: "Easy",
+    botMedium: "Medium",
+    botHard: "Old-timer",
+    playerName: "Your name",
+    loginOnline: "Sign in",
+    createRoom: "Create room",
     rulesTitle: "Base points",
     ruleMove: "Regular pieces move one diagonal square.",
     ruleCapture: "Captures are mandatory when available.",
@@ -50,12 +84,29 @@ const translations = {
     blackTurn: "Negras",
     selectPiece: "Selecciona una ficha para ver los movimientos disponibles.",
     mustCapture: "Hay una captura obligatoria.",
-    keepCapturing: "Continúa capturando con la misma ficha.",
+    keepCapturing: "Continua capturando con la misma ficha.",
     redWins: "Ganan las rojas.",
     blackWins: "Ganan las negras.",
+    botThinking: "El bot esta pensando...",
+    botTurn: "Turno del bot.",
+    onlineOffline: "Entra y crea una sala para invitar a otro jugador.",
+    onlineLogged: "Conectado como {name}. Crea una sala para jugar online.",
+    onlineRoom: "Sala {room} creada. El multijugador real necesita servidor de sincronizacion.",
+    onlineWaiting: "Esperando que un rival conectado entre en la sala.",
+    modeLabel: "Modo de juego",
+    modeLocal: "Local",
+    modeBot: "Contra bot",
+    modeOnline: "Online",
+    botLevel: "Nivel del bot",
+    botEasy: "Facil",
+    botMedium: "Medio",
+    botHard: "Viejo de la plaza",
+    playerName: "Tu nombre",
+    loginOnline: "Entrar",
+    createRoom: "Crear sala",
     rulesTitle: "Puntos base",
     ruleMove: "Las fichas comunes se mueven una casilla en diagonal.",
-    ruleCapture: "Las capturas son obligatorias cuando están disponibles.",
+    ruleCapture: "Las capturas son obligatorias cuando estan disponibles.",
     ruleKing: "Al llegar al final, la ficha se convierte en dama.",
     ruleWin: "Gana quien capture o bloquee todas las fichas rivales."
   },
@@ -73,6 +124,23 @@ const translations = {
     keepCapturing: "Continuez la capture avec la meme piece.",
     redWins: "Les rouges gagnent.",
     blackWins: "Les noires gagnent.",
+    botThinking: "Le bot reflechit...",
+    botTurn: "Tour du bot.",
+    onlineOffline: "Connectez-vous et creez une salle pour inviter un joueur.",
+    onlineLogged: "Connecte en tant que {name}. Creez une salle pour jouer en ligne.",
+    onlineRoom: "Salle {room} creee. Le vrai multijoueur exige un serveur de synchronisation.",
+    onlineWaiting: "En attente d'un adversaire connecte.",
+    modeLabel: "Mode de jeu",
+    modeLocal: "Local",
+    modeBot: "Contre bot",
+    modeOnline: "En ligne",
+    botLevel: "Niveau du bot",
+    botEasy: "Facile",
+    botMedium: "Moyen",
+    botHard: "Vieux de la place",
+    playerName: "Votre nom",
+    loginOnline: "Entrer",
+    createRoom: "Creer une salle",
     rulesTitle: "Points de base",
     ruleMove: "Les pieces simples avancent d'une case en diagonale.",
     ruleCapture: "Les captures sont obligatoires quand elles existent.",
@@ -88,8 +156,18 @@ const statusEl = document.querySelector("#status");
 const turnLabelEl = document.querySelector("#turn-label");
 const redCountEl = document.querySelector("#red-count");
 const blackCountEl = document.querySelector("#black-count");
+const gameModeEl = document.querySelector("#game-mode");
+const botLevelEl = document.querySelector("#bot-level");
+const botOptionsEl = document.querySelector("#bot-options");
+const onlineOptionsEl = document.querySelector("#online-options");
+const playerNameEl = document.querySelector("#player-name");
+const loginOnlineEl = document.querySelector("#login-online");
+const createRoomEl = document.querySelector("#create-room");
+const onlineStateEl = document.querySelector("#online-state");
 
 const size = 8;
+const botColor = "black";
+const humanColor = "red";
 const directions = [
   { row: -1, col: -1 },
   { row: -1, col: 1 },
@@ -104,9 +182,18 @@ let selected = null;
 let chainPiece = null;
 let statusKey = "selectPiece";
 let winner = null;
+let gameMode = "local";
+let botLevel = "easy";
+let botBusy = false;
+let onlinePlayer = "";
+let onlineRoom = "";
 
-function t(key) {
-  return translations[language][key] || translations["pt-BR"][key] || key;
+function t(key, replacements = {}) {
+  const template = translations[language][key] || translations["pt-BR"][key] || key;
+  return Object.entries(replacements).reduce(
+    (text, [name, value]) => text.replace(`{${name}}`, value),
+    template
+  );
 }
 
 function createInitialBoard() {
@@ -118,6 +205,10 @@ function createInitialBoard() {
       return null;
     })
   );
+}
+
+function cloneBoard(source) {
+  return source.map((row) => row.map((piece) => (piece ? { ...piece } : null)));
 }
 
 function inside(row, col) {
@@ -139,34 +230,30 @@ function moveDirections(piece) {
     : [{ row: 1, col: -1 }, { row: 1, col: 1 }];
 }
 
-function captureDirections() {
-  return directions;
-}
-
-function getSimpleMoves(row, col) {
-  const piece = board[row][col];
-  if (!piece || chainPiece) return [];
+function getSimpleMovesOn(targetBoard, row, col, forcedChain = null) {
+  const piece = targetBoard[row][col];
+  if (!piece || forcedChain) return [];
   return moveDirections(piece)
     .map((direction) => ({
       from: { row, col },
       to: { row: row + direction.row, col: col + direction.col },
       captures: []
     }))
-    .filter((move) => inside(move.to.row, move.to.col) && !board[move.to.row][move.to.col]);
+    .filter((move) => inside(move.to.row, move.to.col) && !targetBoard[move.to.row][move.to.col]);
 }
 
-function getCaptures(row, col) {
-  const piece = board[row][col];
+function getCapturesOn(targetBoard, row, col) {
+  const piece = targetBoard[row][col];
   if (!piece) return [];
 
-  return captureDirections()
+  return directions
     .map((direction) => {
       const jumped = { row: row + direction.row, col: col + direction.col };
       const landed = { row: row + direction.row * 2, col: col + direction.col * 2 };
       if (!inside(jumped.row, jumped.col) || !inside(landed.row, landed.col)) return null;
 
-      const target = board[jumped.row][jumped.col];
-      if (!target || target.color === piece.color || board[landed.row][landed.col]) return null;
+      const target = targetBoard[jumped.row][jumped.col];
+      if (!target || target.color === piece.color || targetBoard[landed.row][landed.col]) return null;
 
       return {
         from: { row, col },
@@ -177,45 +264,54 @@ function getCaptures(row, col) {
     .filter(Boolean);
 }
 
-function allCapturesFor(color) {
+function allCapturesForOn(targetBoard, color) {
   const captures = [];
   for (let row = 0; row < size; row += 1) {
     for (let col = 0; col < size; col += 1) {
-      const piece = board[row][col];
+      const piece = targetBoard[row][col];
       if (piece && piece.color === color) {
-        captures.push(...getCaptures(row, col));
+        captures.push(...getCapturesOn(targetBoard, row, col));
       }
     }
   }
   return captures;
 }
 
-function getMovesFor(row, col) {
-  const piece = board[row][col];
-  if (!piece || piece.color !== turn || winner) return [];
-  if (chainPiece && !samePosition(chainPiece, { row, col })) return [];
+function getMovesForOn(targetBoard, color, row, col, forcedChain = null) {
+  const piece = targetBoard[row][col];
+  if (!piece || piece.color !== color) return [];
+  if (forcedChain && !samePosition(forcedChain, { row, col })) return [];
 
-  const captures = chainPiece ? getCaptures(row, col) : allCapturesFor(turn);
+  const captures = forcedChain ? getCapturesOn(targetBoard, row, col) : allCapturesForOn(targetBoard, color);
   const ownCaptures = captures.filter((move) => move.from.row === row && move.from.col === col);
   if (captures.length > 0) return ownCaptures;
 
-  return getSimpleMoves(row, col);
+  return getSimpleMovesOn(targetBoard, row, col, forcedChain);
 }
 
-function getAllMovesFor(color) {
-  const captures = allCapturesFor(color);
+function getAllMovesForOn(targetBoard, color) {
+  const captures = allCapturesForOn(targetBoard, color);
   if (captures.length) return captures;
 
   const moves = [];
   for (let row = 0; row < size; row += 1) {
     for (let col = 0; col < size; col += 1) {
-      const piece = board[row][col];
+      const piece = targetBoard[row][col];
       if (piece && piece.color === color) {
-        moves.push(...getSimpleMoves(row, col));
+        moves.push(...getSimpleMovesOn(targetBoard, row, col));
       }
     }
   }
   return moves;
+}
+
+function getMovesFor(row, col) {
+  if (winner) return [];
+  return getMovesForOn(board, turn, row, col, chainPiece);
+}
+
+function getAllMovesFor(color) {
+  return getAllMovesForOn(board, color);
 }
 
 function promoteIfNeeded(piece, row) {
@@ -224,24 +320,30 @@ function promoteIfNeeded(piece, row) {
   }
 }
 
-function applyMove(move) {
-  const piece = board[move.from.row][move.from.col];
-  board[move.from.row][move.from.col] = null;
-  board[move.to.row][move.to.col] = piece;
+function applyMoveToBoard(targetBoard, move) {
+  const piece = targetBoard[move.from.row][move.from.col];
+  targetBoard[move.from.row][move.from.col] = null;
+  targetBoard[move.to.row][move.to.col] = piece;
 
   move.captures.forEach((captured) => {
-    board[captured.row][captured.col] = null;
+    targetBoard[captured.row][captured.col] = null;
   });
 
   promoteIfNeeded(piece, move.to.row);
+  return piece;
+}
+
+function applyMove(move) {
+  applyMoveToBoard(board, move);
 
   if (move.captures.length) {
-    const nextCaptures = getCaptures(move.to.row, move.to.col);
+    const nextCaptures = getCapturesOn(board, move.to.row, move.to.col);
     if (nextCaptures.length) {
       chainPiece = { row: move.to.row, col: move.to.col };
       selected = chainPiece;
       statusKey = "keepCapturing";
       render();
+      if (isBotTurn()) queueBotMove();
       return;
     }
   }
@@ -249,9 +351,10 @@ function applyMove(move) {
   turn = opponentOf(turn);
   selected = null;
   chainPiece = null;
-  statusKey = allCapturesFor(turn).length ? "mustCapture" : "selectPiece";
+  statusKey = allCapturesForOn(board, turn).length ? "mustCapture" : "selectPiece";
   updateWinner();
   render();
+  if (isBotTurn()) queueBotMove();
 }
 
 function updateWinner() {
@@ -263,8 +366,8 @@ function updateWinner() {
   if (!winner && getAllMovesFor(turn).length === 0) winner = opponentOf(turn);
 }
 
-function countPieces(color) {
-  return board.flat().filter((piece) => piece?.color === color).length;
+function countPieces(color, targetBoard = board) {
+  return targetBoard.flat().filter((piece) => piece?.color === color).length;
 }
 
 function legalMovesForSelection() {
@@ -272,8 +375,16 @@ function legalMovesForSelection() {
   return getMovesFor(selected.row, selected.col);
 }
 
+function isBotTurn() {
+  return gameMode === "bot" && turn === botColor && !winner;
+}
+
+function isBoardLockedForHuman() {
+  return botBusy || isBotTurn() || (gameMode === "online" && !onlineRoom);
+}
+
 function handleSquareClick(row, col) {
-  if (winner) return;
+  if (winner || isBoardLockedForHuman()) return;
   const piece = board[row][col];
   const legalMoves = legalMovesForSelection();
   const chosenMove = legalMoves.find((move) => move.to.row === row && move.to.col === col);
@@ -290,8 +401,110 @@ function handleSquareClick(row, col) {
   }
 }
 
+function randomChoice(items) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function evaluateMove(targetBoard, move, color) {
+  const nextBoard = cloneBoard(targetBoard);
+  const movingPiece = nextBoard[move.from.row][move.from.col];
+  const wasKing = movingPiece?.king;
+  applyMoveToBoard(nextBoard, move);
+  const becameKing = movingPiece && !wasKing && movingPiece.king;
+  const opponent = opponentOf(color);
+  const exposed = allCapturesForOn(nextBoard, opponent).some(
+    (candidate) => candidate.captures[0]?.row === move.to.row && candidate.captures[0]?.col === move.to.col
+  );
+
+  return (
+    move.captures.length * 120 +
+    (becameKing ? 80 : 0) +
+    (movingPiece?.king ? 15 : 0) +
+    (color === "black" ? move.to.row : size - 1 - move.to.row) * 4 -
+    (exposed ? 55 : 0)
+  );
+}
+
+function evaluateBoard(targetBoard) {
+  let score = 0;
+  for (let row = 0; row < size; row += 1) {
+    for (let col = 0; col < size; col += 1) {
+      const piece = targetBoard[row][col];
+      if (!piece) continue;
+      const value = (piece.king ? 175 : 100) + (piece.color === "black" ? row : size - 1 - row) * 3;
+      score += piece.color === botColor ? value : -value;
+    }
+  }
+  return score;
+}
+
+function minimax(targetBoard, color, depth, alpha, beta) {
+  const moves = getAllMovesForOn(targetBoard, color);
+  if (depth === 0 || moves.length === 0) {
+    return { score: evaluateBoard(targetBoard) };
+  }
+
+  let bestMove = null;
+  if (color === botColor) {
+    let bestScore = -Infinity;
+    for (const move of moves) {
+      const nextBoard = cloneBoard(targetBoard);
+      applyMoveToBoard(nextBoard, move);
+      const score = minimax(nextBoard, opponentOf(color), depth - 1, alpha, beta).score;
+      if (score > bestScore) {
+        bestScore = score;
+        bestMove = move;
+      }
+      alpha = Math.max(alpha, bestScore);
+      if (beta <= alpha) break;
+    }
+    return { score: bestScore, move: bestMove };
+  }
+
+  let bestScore = Infinity;
+  for (const move of moves) {
+    const nextBoard = cloneBoard(targetBoard);
+    applyMoveToBoard(nextBoard, move);
+    const score = minimax(nextBoard, opponentOf(color), depth - 1, alpha, beta).score;
+    if (score < bestScore) {
+      bestScore = score;
+      bestMove = move;
+    }
+    beta = Math.min(beta, bestScore);
+    if (beta <= alpha) break;
+  }
+  return { score: bestScore, move: bestMove };
+}
+
+function chooseBotMove() {
+  const moves = chainPiece ? getMovesFor(chainPiece.row, chainPiece.col) : getAllMovesFor(botColor);
+  if (!moves.length) return null;
+  if (botLevel === "easy") return randomChoice(moves);
+
+  if (botLevel === "medium") {
+    const ranked = [...moves].sort((a, b) => evaluateMove(board, b, botColor) - evaluateMove(board, a, botColor));
+    return ranked[0];
+  }
+
+  return minimax(board, botColor, 4, -Infinity, Infinity).move || randomChoice(moves);
+}
+
+function queueBotMove() {
+  if (botBusy || !isBotTurn()) return;
+  botBusy = true;
+  statusKey = "botThinking";
+  render();
+
+  window.setTimeout(() => {
+    const move = chooseBotMove();
+    botBusy = false;
+    if (move) applyMove(move);
+  }, botLevel === "hard" ? 520 : 360);
+}
+
 function renderBoard() {
   boardEl.innerHTML = "";
+  boardEl.classList.toggle("thinking", botBusy);
   const legalMoves = legalMovesForSelection();
 
   for (let row = 0; row < size; row += 1) {
@@ -300,6 +513,7 @@ function renderBoard() {
       square.type = "button";
       square.className = `square ${(row + col) % 2 ? "dark" : "light"}`;
       square.setAttribute("aria-label", `${row + 1}, ${col + 1}`);
+      square.disabled = isBoardLockedForHuman();
       square.addEventListener("click", () => handleSquareClick(row, col));
 
       if (samePosition(selected, { row, col })) square.classList.add("selected");
@@ -328,12 +542,33 @@ function renderText() {
   turnLabelEl.textContent = turn === "red" ? t("redTurn") : t("blackTurn");
   redCountEl.textContent = countPieces("red");
   blackCountEl.textContent = countPieces("black");
+  botOptionsEl.classList.toggle("hidden", gameMode !== "bot");
+  onlineOptionsEl.classList.toggle("hidden", gameMode !== "online");
 
   if (winner) {
     statusEl.textContent = winner === "red" ? t("redWins") : t("blackWins");
+  } else if (botBusy) {
+    statusEl.textContent = t("botThinking");
+  } else if (isBotTurn()) {
+    statusEl.textContent = t("botTurn");
   } else {
     statusEl.textContent = t(statusKey);
   }
+
+  renderOnlineState();
+}
+
+function renderOnlineState() {
+  if (gameMode !== "online") return;
+  if (!onlinePlayer) {
+    onlineStateEl.textContent = t("onlineOffline");
+    return;
+  }
+  if (!onlineRoom) {
+    onlineStateEl.textContent = t("onlineLogged", { name: onlinePlayer });
+    return;
+  }
+  onlineStateEl.textContent = `${t("onlineRoom", { room: onlineRoom })} ${t("onlineWaiting")}`;
 }
 
 function render() {
@@ -347,8 +582,22 @@ function restartGame() {
   selected = null;
   chainPiece = null;
   winner = null;
-  statusKey = "selectPiece";
+  botBusy = false;
+  statusKey = allCapturesForOn(board, turn).length ? "mustCapture" : "selectPiece";
   render();
+  if (isBotTurn()) queueBotMove();
+}
+
+function setMode(nextMode) {
+  gameMode = nextMode;
+  selected = null;
+  chainPiece = null;
+  statusKey = gameMode === "online" && !onlineRoom ? "onlineOffline" : "selectPiece";
+  restartGame();
+}
+
+function createRoomCode() {
+  return Math.random().toString(36).slice(2, 8).toUpperCase();
 }
 
 languageEl.addEventListener("change", (event) => {
@@ -357,5 +606,25 @@ languageEl.addEventListener("change", (event) => {
 });
 
 restartEl.addEventListener("click", restartGame);
+
+gameModeEl.addEventListener("change", (event) => {
+  setMode(event.target.value);
+});
+
+botLevelEl.addEventListener("change", (event) => {
+  botLevel = event.target.value;
+  restartGame();
+});
+
+loginOnlineEl.addEventListener("click", () => {
+  onlinePlayer = playerNameEl.value.trim() || "Jogador";
+  render();
+});
+
+createRoomEl.addEventListener("click", () => {
+  onlinePlayer = playerNameEl.value.trim() || onlinePlayer || "Jogador";
+  onlineRoom = createRoomCode();
+  render();
+});
 
 restartGame();
