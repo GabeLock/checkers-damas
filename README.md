@@ -13,6 +13,9 @@ Jogo de dama em HTML, CSS e JavaScript puro, pronto para abrir no navegador sem 
 - Contagem de pecas e deteccao de vitoria por captura ou bloqueio.
 - Modo contra bot com tres niveis: facil, medio e velho da praca.
 - Opcao online com login local e criacao de sala; multiplayer real ainda exige um servidor de sincronizacao antes da publicacao final dessa funcao.
+- Damas se movem em diagonais livres por qualquer distancia e nao saltam pecas da mesma cor.
+- Empate automatico apos 20 lances sucessivos so de damas sem captura ou deslocamento de pedra.
+- Finais reduzidos especificos sao declarados empatados apos 5 lances.
 
 ## Como executar
 

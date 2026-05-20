@@ -13,6 +13,7 @@ const translations = {
     keepCapturing: "Continue capturando com a mesma peca.",
     redWins: "Vermelhas venceram.",
     blackWins: "Pretas venceram.",
+    drawGame: "Partida empatada.",
     botThinking: "Bot pensando...",
     botTurn: "Vez do bot.",
     onlineOffline: "Entre e crie uma sala para convidar outro jogador.",
@@ -31,10 +32,10 @@ const translations = {
     loginOnline: "Entrar",
     createRoom: "Criar sala",
     rulesTitle: "Pontos base",
-    ruleMove: "Pecas comuns movem uma casa na diagonal.",
-    ruleCapture: "Capturas sao obrigatorias quando disponiveis.",
-    ruleKing: "Ao chegar ao final, a peca vira dama.",
-    ruleWin: "Vence quem capturar ou bloquear todas as pecas rivais."
+    ruleMove: "Pedras andam uma casa para frente; damas andam em diagonal quantas casas quiserem.",
+    ruleCapture: "Pedra e dama capturam qualquer peca rival, inclusive entre si.",
+    ruleKing: "A pedra so vira dama quando para na linha de coroacao.",
+    ruleWin: "Empate automatico segue as regras de 20 lances de damas ou finais reduzidos."
   },
   en: {
     eyebrow: "Board game",
@@ -50,6 +51,7 @@ const translations = {
     keepCapturing: "Keep capturing with the same piece.",
     redWins: "Red wins.",
     blackWins: "Black wins.",
+    drawGame: "Draw game.",
     botThinking: "Bot thinking...",
     botTurn: "Bot turn.",
     onlineOffline: "Sign in and create a room to invite another player.",
@@ -68,10 +70,10 @@ const translations = {
     loginOnline: "Sign in",
     createRoom: "Create room",
     rulesTitle: "Base points",
-    ruleMove: "Regular pieces move one diagonal square.",
-    ruleCapture: "Captures are mandatory when available.",
-    ruleKing: "A piece becomes a king on the far row.",
-    ruleWin: "Win by capturing or blocking every rival piece."
+    ruleMove: "Men move one square forward; kings move diagonally any distance.",
+    ruleCapture: "Men and kings capture any rival piece, including each other.",
+    ruleKing: "A man is crowned only when it stops on the crown row.",
+    ruleWin: "Automatic draws follow the 20-king-move and reduced-ending rules."
   },
   es: {
     eyebrow: "Juego de mesa",
@@ -87,6 +89,7 @@ const translations = {
     keepCapturing: "Continua capturando con la misma ficha.",
     redWins: "Ganan las rojas.",
     blackWins: "Ganan las negras.",
+    drawGame: "Partida empatada.",
     botThinking: "El bot esta pensando...",
     botTurn: "Turno del bot.",
     onlineOffline: "Entra y crea una sala para invitar a otro jugador.",
@@ -105,10 +108,10 @@ const translations = {
     loginOnline: "Entrar",
     createRoom: "Crear sala",
     rulesTitle: "Puntos base",
-    ruleMove: "Las fichas comunes se mueven una casilla en diagonal.",
-    ruleCapture: "Las capturas son obligatorias cuando estan disponibles.",
-    ruleKing: "Al llegar al final, la ficha se convierte en dama.",
-    ruleWin: "Gana quien capture o bloquee todas las fichas rivales."
+    ruleMove: "Las piezas comunes avanzan una casilla; las damas recorren diagonales libres.",
+    ruleCapture: "Piezas comunes y damas capturan cualquier pieza rival.",
+    ruleKing: "La pieza se corona solo si se detiene en la ultima fila.",
+    ruleWin: "Los empates automaticos siguen las reglas de 20 jugadas de damas o finales reducidos."
   },
   fr: {
     eyebrow: "Jeu de plateau",
@@ -124,6 +127,7 @@ const translations = {
     keepCapturing: "Continuez la capture avec la meme piece.",
     redWins: "Les rouges gagnent.",
     blackWins: "Les noires gagnent.",
+    drawGame: "Partie nulle.",
     botThinking: "Le bot reflechit...",
     botTurn: "Tour du bot.",
     onlineOffline: "Connectez-vous et creez une salle pour inviter un joueur.",
@@ -142,10 +146,10 @@ const translations = {
     loginOnline: "Entrer",
     createRoom: "Creer une salle",
     rulesTitle: "Points de base",
-    ruleMove: "Les pieces simples avancent d'une case en diagonale.",
-    ruleCapture: "Les captures sont obligatoires quand elles existent.",
-    ruleKing: "Une piece devient dame sur la derniere rangee.",
-    ruleWin: "Gagnez en capturant ou bloquant toutes les pieces adverses."
+    ruleMove: "Les pions avancent d'une case; les dames parcourent les diagonales libres.",
+    ruleCapture: "Pions et dames capturent toute piece adverse.",
+    ruleKing: "Un pion devient dame seulement s'il s'arrete sur la rangee de promotion.",
+    ruleWin: "Les nulles automatiques suivent les regles des 20 coups de dames ou fins reduites."
   }
 };
 
@@ -187,6 +191,9 @@ let botLevel = "easy";
 let botBusy = false;
 let onlinePlayer = "";
 let onlineRoom = "";
+let kingQuietPlyCount = 0;
+let finalMaterialPlyCount = 0;
+let currentFinalMaterialKey = "";
 
 function t(key, replacements = {}) {
   const template = translations[language][key] || translations["pt-BR"][key] || key;
@@ -233,18 +240,67 @@ function moveDirections(piece) {
 function getSimpleMovesOn(targetBoard, row, col, forcedChain = null) {
   const piece = targetBoard[row][col];
   if (!piece || forcedChain) return [];
-  return moveDirections(piece)
-    .map((direction) => ({
-      from: { row, col },
-      to: { row: row + direction.row, col: col + direction.col },
-      captures: []
-    }))
-    .filter((move) => inside(move.to.row, move.to.col) && !targetBoard[move.to.row][move.to.col]);
+
+  if (!piece.king) {
+    return moveDirections(piece)
+      .map((direction) => ({
+        from: { row, col },
+        to: { row: row + direction.row, col: col + direction.col },
+        captures: []
+      }))
+      .filter((move) => inside(move.to.row, move.to.col) && !targetBoard[move.to.row][move.to.col]);
+  }
+
+  const moves = [];
+  directions.forEach((direction) => {
+    let nextRow = row + direction.row;
+    let nextCol = col + direction.col;
+    while (inside(nextRow, nextCol) && !targetBoard[nextRow][nextCol]) {
+      moves.push({
+        from: { row, col },
+        to: { row: nextRow, col: nextCol },
+        captures: []
+      });
+      nextRow += direction.row;
+      nextCol += direction.col;
+    }
+  });
+  return moves;
 }
 
 function getCapturesOn(targetBoard, row, col) {
   const piece = targetBoard[row][col];
   if (!piece) return [];
+
+  if (piece.king) {
+    const captures = [];
+    directions.forEach((direction) => {
+      let scanRow = row + direction.row;
+      let scanCol = col + direction.col;
+
+      while (inside(scanRow, scanCol) && !targetBoard[scanRow][scanCol]) {
+        scanRow += direction.row;
+        scanCol += direction.col;
+      }
+
+      if (!inside(scanRow, scanCol)) return;
+      const target = targetBoard[scanRow][scanCol];
+      if (!target || target.color === piece.color) return;
+
+      let landingRow = scanRow + direction.row;
+      let landingCol = scanCol + direction.col;
+      while (inside(landingRow, landingCol) && !targetBoard[landingRow][landingCol]) {
+        captures.push({
+          from: { row, col },
+          to: { row: landingRow, col: landingCol },
+          captures: [{ row: scanRow, col: scanCol }]
+        });
+        landingRow += direction.row;
+        landingCol += direction.col;
+      }
+    });
+    return captures;
+  }
 
   return directions
     .map((direction) => {
@@ -334,6 +390,9 @@ function applyMoveToBoard(targetBoard, move) {
 }
 
 function applyMove(move) {
+  const movingPiece = board[move.from.row][move.from.col];
+  const movedWasKing = Boolean(movingPiece?.king);
+  const hadCapture = move.captures.length > 0;
   applyMoveToBoard(board, move);
 
   if (move.captures.length) {
@@ -352,18 +411,72 @@ function applyMove(move) {
   selected = null;
   chainPiece = null;
   statusKey = allCapturesForOn(board, turn).length ? "mustCapture" : "selectPiece";
+  updateDrawState(movedWasKing, hadCapture);
   updateWinner();
   render();
   if (isBotTurn()) queueBotMove();
 }
 
 function updateWinner() {
+  if (winner) return;
   const redPieces = countPieces("red");
   const blackPieces = countPieces("black");
 
   if (redPieces === 0) winner = "black";
   if (blackPieces === 0) winner = "red";
   if (!winner && getAllMovesFor(turn).length === 0) winner = opponentOf(turn);
+}
+
+function materialSummary(targetBoard = board) {
+  const summary = {
+    red: { men: 0, kings: 0 },
+    black: { men: 0, kings: 0 }
+  };
+
+  targetBoard.flat().forEach((piece) => {
+    if (!piece) return;
+    if (piece.king) {
+      summary[piece.color].kings += 1;
+    } else {
+      summary[piece.color].men += 1;
+    }
+  });
+
+  return summary;
+}
+
+function reducedEndingKey() {
+  const summary = materialSummary();
+  const sides = [summary.red, summary.black]
+    .map((side) => `${side.kings}K${side.men}M`)
+    .sort();
+  const key = sides.join("-");
+  const reducedEndings = new Set([
+    "2K0M-2K0M",
+    "1K0M-2K0M",
+    "1K1M-2K0M",
+    "1K0M-1K0M",
+    "1K0M-1K1M"
+  ]);
+
+  return reducedEndings.has(key) ? key : "";
+}
+
+function updateDrawState(movedWasKing, hadCapture) {
+  kingQuietPlyCount = movedWasKing && !hadCapture ? kingQuietPlyCount + 1 : 0;
+
+  const endingKey = reducedEndingKey();
+  if (endingKey) {
+    finalMaterialPlyCount = endingKey === currentFinalMaterialKey ? finalMaterialPlyCount + 1 : 1;
+    currentFinalMaterialKey = endingKey;
+  } else {
+    finalMaterialPlyCount = 0;
+    currentFinalMaterialKey = "";
+  }
+
+  if (kingQuietPlyCount >= 20 || finalMaterialPlyCount >= 5) {
+    winner = "draw";
+  }
 }
 
 function countPieces(color, targetBoard = board) {
@@ -546,7 +659,11 @@ function renderText() {
   onlineOptionsEl.classList.toggle("hidden", gameMode !== "online");
 
   if (winner) {
-    statusEl.textContent = winner === "red" ? t("redWins") : t("blackWins");
+    if (winner === "draw") {
+      statusEl.textContent = t("drawGame");
+    } else {
+      statusEl.textContent = winner === "red" ? t("redWins") : t("blackWins");
+    }
   } else if (botBusy) {
     statusEl.textContent = t("botThinking");
   } else if (isBotTurn()) {
@@ -583,6 +700,9 @@ function restartGame() {
   chainPiece = null;
   winner = null;
   botBusy = false;
+  kingQuietPlyCount = 0;
+  finalMaterialPlyCount = 0;
+  currentFinalMaterialKey = "";
   statusKey = allCapturesForOn(board, turn).length ? "mustCapture" : "selectPiece";
   render();
   if (isBotTurn()) queueBotMove();
