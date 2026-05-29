@@ -2,6 +2,12 @@
 
 Jogo de dama em HTML, CSS e JavaScript puro, pronto para abrir no navegador sem build.
 
+## Jogar agora
+
+Abra o jogo pelo GitHub Pages:
+
+https://gabelock.github.io/checkers-damas/
+
 ## Pontos base antes da publicacao
 
 - Interface em quatro idiomas: portugues, ingles, espanhol e frances.
